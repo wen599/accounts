@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: inherit;
+    font-size: 100%;
+}
+
+html, body {
+    line-height: 1;
+    font-size: 12px;
+    min-height: 100vh;
+}
+
+ol, ul {
+
+    list-style: none;
+
+}
+
+input {
+    display: block;
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+

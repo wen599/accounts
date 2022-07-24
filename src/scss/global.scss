@@ -1,0 +1,11 @@
+@use "sass:math";
+
+@function vw($px) {
+  @return math.div($px, 375)*100vw;
+}
+
+$mainColor: #f8d483;
+$fontColor: #202020;
+$fontAside: #676e77;
+$fontGray: #a8a8a8;
+
