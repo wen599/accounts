@@ -32,7 +32,6 @@ const props = defineProps<Props>()
 
 const arr = props.type === '支出' ? currentMonthMoney.value.outlayArr : currentMonthMoney.value.incomeArr
 const {getIcon} = props.type === '支出' ? useOutlayStore() : useIncomeStore()
-console.log(JSON.parse(JSON.stringify(arr)))
 const getMoney = (str: string) => {
   let result = 0
   for (let i = 0; i < arr.length; i++) {

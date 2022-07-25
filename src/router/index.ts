@@ -22,7 +22,7 @@ export const router = createRouter({
     },
     {
       path: '/detail',
-      name:'detail',
+      name: 'detail',
       component: () => {
         return import(/* webpackChunkName: "detail" */ '@/view/Detail.vue')
       }
@@ -32,6 +32,13 @@ export const router = createRouter({
       path: '/statistics',
       component: () => {
         return import(/* webpackChunkName: "detail" */ '@/view/Statistics.vue')
+      }
+    },
+    {
+      path: '/edit',
+      name: 'edit',
+      component: () => {
+        return import(/* webpackChunkName: "edit" */ '@/components/EditExpend/EditExpend.vue')
       }
     }
   ]

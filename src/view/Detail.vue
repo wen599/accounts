@@ -29,9 +29,14 @@
         <input type="number" placeholder="金额大于" @change="changeDefaultMoney">
       </AssortType>
     </div>
-    <div>
-      {{ infoList }}
-    </div>
+    <!--  记账明细  -->
+    <Detail-List
+        v-for="(item,index) in infoList"
+        :key="index"
+        :time="item.time"
+        :total="item.total"
+        :list="item.list"
+    ></Detail-List>
   </div>
 </template>
 
@@ -54,7 +59,6 @@ const changTime = () => {
   showTimeList.value = !showTimeList.value
 }
 const close = () => {
-  console.log(1)
   showDetailList.value = false
   showTimeList.value = false
 }
@@ -91,7 +95,10 @@ if (route.params.text) {
 type Item = {
   icon: string,
   type: string,
-  money: number
+  money: number,
+  remark: string,
+  typeFlog: boolean,
+  id: number
 }
 
 type Info = {
@@ -100,14 +107,10 @@ type Info = {
   list: Item[]
 }
 
-type InfoList = Info[]
-let infoList: InfoList
 // 获取分类的数据
-computed(() => {
-  return infoList
-})
-watchEffect(() => {
-  infoList = reactive([])
+const infoList = computed(() => {
+  type InfoList = Info[]
+  const infoList: InfoList = reactive([])
   let infoArr = expend.expenseRecords
   if (typeObj.type === '全部分类') {
     infoArr = infoArr.filter((item: any) => {
@@ -143,6 +146,7 @@ watchEffect(() => {
     })
     infoList.push(obj)
   })
+  return infoList
 })
 
 </script>

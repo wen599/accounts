@@ -26,6 +26,19 @@ export const useOutlayStore = defineStore(Names.outlay, {
       for (let i = 0; i < this.$state.assort.length; i++) {
         if (this.$state.assort[i].name === name) return this.$state.assort[i].icon
       }
+    },
+    getTwoIcon (firstName: string, secondlyName: string): string {
+      let icon = ''
+      for (let i = 0; i < this.$state.assort.length; i++) {
+        if (this.$state.assort[i].name === firstName) {
+          this.$state.assort[i].children.forEach((item) => {
+            if (item.name === secondlyName) {
+              icon = item.icon
+            }
+          })
+        }
+      }
+      return icon
     }
   }
 })
@@ -52,6 +65,19 @@ export const useIncomeStore = defineStore(Names.income, {
       for (let i = 0; i < this.$state.assort.length; i++) {
         if (this.$state.assort[i].name === name) return this.$state.assort[i].icon
       }
+    },
+    getTwoIcon (firstName: string, secondlyName: string): string {
+      let icon = ''
+      for (let i = 0; i < this.$state.assort.length; i++) {
+        if (this.$state.assort[i].name === firstName) {
+          this.$state.assort[i].children.forEach((item) => {
+            if (item.name === secondlyName) {
+              icon = item.icon
+            }
+          })
+        }
+      }
+      return icon
     }
   }
 })
