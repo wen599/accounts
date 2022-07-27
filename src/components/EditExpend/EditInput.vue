@@ -1,8 +1,6 @@
 <template>
   <div class="create-input-container">
-    <!-- <div>记账</div> -->
-    <input v-focus placeholder="0.00" v-model="money" class="input-money" type="number">
-
+    <input placeholder="0.00" v-model="money" class="input-money" type="number">
     <CreateInputItem @click="showPopup">
       <template #icon>
         <i class="iconfont icon-type"></i>
@@ -11,7 +9,7 @@
         <span>类型</span>
       </template>
       <template #text>
-        <span>{{ typeString }}</span>
+        <span>{{ xxx }}</span>
       </template>
     </CreateInputItem>
 
@@ -19,13 +17,11 @@
     <van-popup v-model:show="show" position="bottom">
       <van-picker
           ref="picker"
+          :show-toolbar="false"
           :columns="columns"
           @change="onChange"
-          :show-toolbar="false"
-          :swipe-duration="500"
       />
     </van-popup>
-
     <CreateInputItem @click.prevent="showDate">
       <template #icon>
         <i class="iconfont icon-shijian"></i>
@@ -34,21 +30,18 @@
         <span>时间</span>
       </template>
       <template #text>
-        <span>{{ time }}</span>
+        <span>{{ info.time }}</span>
       </template>
     </CreateInputItem>
 
     <!--  日期选择 -->
     <van-popup v-model:show="flog" position="bottom">
       <van-datetime-picker
-          :swipe-duration="500"
           :show-toolbar="false"
           v-model="currentDate"
           type="date"
-          title="选择年月日"
           :min-date="minDate"
           :max-date="maxDate"
-          @change="selectedTime"
       />
     </van-popup>
     <!-- 备注 -->
@@ -60,7 +53,7 @@
         <span>备注</span>
       </template>
       <template #text>
-        <input placeholder="请输入备注" v-model="remark">
+        <input placeholder="请输入备注" v-model="info.remark">
       </template>
     </CreateInputItem>
   </div>
@@ -69,88 +62,81 @@
 
 <script setup lang='ts'>
 import CreateInputItem from '@/components/Create/CreateInputItem.vue'
-import { Directive, Ref } from 'vue'
-import type { PickerInstance } from 'vant'
-import { formatDate } from '@/util/Util'
+import {useExpendStore, useIncomeStore, useOutlayStore} from '@/Store/store'
+import {formatDate} from '@/util/Util'
+import {PickerInstance} from 'vant'
 
-// 金额
-const money: Ref<number | undefined> = ref()
-
-// 自动聚焦指令
-const vFocus: Directive = {
-  mounted: (el: HTMLElement) => {
-    setTimeout(() => {
-      el.focus()
-    }, 1000)
-  }
-}
 
 type Props = {
-  typeDate: any
+  id: number
 }
-
-// 类型选择
+// 初始化
 const props = defineProps<Props>()
+const expend = useExpendStore()
+const income = useIncomeStore()
+const outlay = useOutlayStore()
 
-const typeString: Ref<string> = ref(props.typeDate[0].name + '-' + props.typeDate[0].children[0].name)
+// 根据id获取记账信息
+const info = toRaw(expend.getInfo(props.id))
+const money: number = ref(info.money)
+
+const xxx = ref(info.typeString)
+
+// 显示类型选择的逻辑
 const show = ref(false)
 const showPopup = () => {
   show.value = true
 }
-
+// 类型选择的数据
 const picker = ref<PickerInstance>()
+const data = info.typeFlog ? outlay.assort : income.assort
 type Cities = {
-  [key: string]: string[]
+  [key: string]: Array<string>
 }
 const cities: Cities = {}
-
-props.typeDate.forEach((item: any) => {
+for (let i = 0; i < data.length; i++) {
   const arr: Array<string> = []
-  item.children.forEach((i: any) => {
-    arr.push(i.name)
+  data[i].children.forEach((item: any) => {
+    arr.push(item.name)
   })
-  cities[item.name] = arr
-})
-
+  cities[data[i].name] = arr
+}
 const columns = [
-  { values: Object.keys(cities) },
-  { values: cities[props.typeDate[0].name] }
+  {values: Object.keys(cities)},
+  {values: cities[info.typeFlog ? '餐饮日常' : '职业收入']}
 ]
 const onChange = (values: string[]) => {
-  (picker.value as any).setColumnValues(1, cities[values[0]])
-  typeString.value = picker?.value?.getValues()[0] + '-' + picker?.value?.getValues()[1]
+  picker.value?.setColumnValues(1, cities[values[0]])
 }
-
-// 日期选择
+watch(show, () => {
+  if (!show.value) {
+    xxx.value = picker.value?.getValues()[0] + '-' + picker.value?.getValues()[1]
+  }
+})
+// 显示时间选择的逻辑
 const flog = ref(false)
-const currentDate = ref(new Date())
-const time = ref(formatDate(currentDate.value))
-
-const minDate = new Date(1997, 0, 1)
-const maxDate = new Date(2100, 10, 1)
-const showDate = (e: MouseEvent) => {
+const showDate = () => {
   flog.value = true
 }
-
-const selectedTime = (date: Date) => {
-  time.value = formatDate(date)
-}
-
-//  备注
-const remark: Ref<string> = ref('')
-
-defineExpose({
-  money,
-  typeString,
-  time,
-  remark
+// 日期选择的数据
+const currentDate = ref(new Date(info.time))
+const minDate = new Date(1997, 0, 1)
+const maxDate = new Date(2100, 10, 1)
+// 日期更改的函数
+watch(currentDate, (newVal, oldVal) => {
+  info.time = formatDate(currentDate.value)
 })
 
+// 导出修改后的数据
+defineExpose({
+  info,
+  money
+})
 </script>
 
 <style scoped lang='scss'>
 .create-input-container {
-  padding: 0 vw(25);
+  padding: vw(30) vw(25) 0;
 
   .input-money {
     width: 100%;

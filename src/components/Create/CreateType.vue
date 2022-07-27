@@ -8,18 +8,17 @@
 <script setup lang='ts'>
 
 // 切换收入和支出的逻辑,默认true支出
-const props=defineProps({
-  type:Boolean
+const props = defineProps({
+  type: Boolean
 })
 
 const { type } = toRefs(props)
 
-const emit=defineEmits(['update:type'])
-const changeType=(e:MouseEvent)=>{
-  const newVal=(e.target as HTMLElement).innerText.trim()==='支出'
-  emit('update:type',newVal)    
+const emit = defineEmits(['update:type'])
+const changeType = (e: MouseEvent) => {
+  const newVal = (e.target as HTMLElement).innerText.trim() === '支出'
+  emit('update:type', newVal)
 }
-
 
 </script>
 

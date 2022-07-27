@@ -1,7 +1,7 @@
 <template>
   <TopBar>
     <template #left>
-      <i class="iconfont icon-fenlei"></i>
+      <i></i>
     </template>
     <template #center>
       <span>我的账本</span>

@@ -26,17 +26,25 @@
         <span>{{ typeObj.time }}</span>
       </AssortType>
       <AssortType>
-        <input type="number" placeholder="金额大于" @change="changeDefaultMoney">
+        <input
+            type="number"
+            placeholder="金额大于"
+            @change="changeDefaultMoney"
+            class="inputNumber"
+        >
       </AssortType>
     </div>
+
     <!--  记账明细  -->
-    <Detail-List
-        v-for="(item,index) in infoList"
-        :key="index"
-        :time="item.time"
-        :total="item.total"
-        :list="item.list"
-    ></Detail-List>
+    <div class="container-detail">
+      <Detail-List
+          v-for="(item,index) in infoList"
+          :key="index"
+          :time="item.time"
+          :total="item.total"
+          :list="item.list"
+      ></Detail-List>
+    </div>
   </div>
 </template>
 
@@ -89,8 +97,8 @@ const changeDefaultMoney = (e: any) => {
 }
 
 const route = useRoute()
-if (route.params.text) {
-  typeObj.type = route.params.text as string
+if (route.query.text) {
+  typeObj.type = route.query.text as string
 }
 type Item = {
   icon: string,
@@ -127,6 +135,7 @@ const infoList = computed(() => {
       return undefined
     })
   }
+
   const set = new Set()
   infoArr.forEach((item: any) => {
     set.add(item.time)
@@ -146,6 +155,9 @@ const infoList = computed(() => {
     })
     infoList.push(obj)
   })
+  infoList.sort((a, b) => {
+    return Date.parse(a.time) > Date.parse(b.time) ? -1 : 1
+  })
   return infoList
 })
 
@@ -153,7 +165,13 @@ const infoList = computed(() => {
 
 <style scoped lang='scss'>
 .container {
-  min-height: 100vh;
+  // min-height: 100vh;
+}
+
+.container-detail {
+  height: calc(100vh - #{vw(78)});
+  overflow: auto;
+  padding-bottom: vw(20);
 }
 
 .assort {
@@ -163,4 +181,8 @@ const infoList = computed(() => {
   font-size: 12px;
 }
 
+.inputNumber {
+  display: block;
+  width: vw(50);
+}
 </style>

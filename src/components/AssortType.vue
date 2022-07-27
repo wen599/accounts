@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="assort-type">
       <div class="content">
         <slot>
@@ -9,7 +9,7 @@
       <i class="iconfont icon-sanjiaoxing"></i>
     </div>
     <transition name="v">
-      <ul class="bottomList" v-if="props.list && display">
+      <ul class="bottomList" v-if="props.list?.length && display">
         <li v-for="(item,index) in props.list" :key="index" @click="select(item)">{{ item }}</li>
       </ul>
     </transition>
@@ -33,6 +33,10 @@ const select = (item: string) => {
 </script>
 
 <style scoped lang='scss'>
+.container {
+  cursor: pointer;
+}
+
 .assort-type {
   padding: vw(2) vw(10);
   border-radius: vw(5);
@@ -45,7 +49,7 @@ const select = (item: string) => {
   line-height: 1.5;
 
   .content {
-    width: 60px;
+    min-width: 60px;
   }
 
   .icon-sanjiaoxing {
@@ -62,7 +66,8 @@ const select = (item: string) => {
   border-radius: vw(5);
   border: 1px solid $mainColor;
   font-size: 12px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
+  z-index: 9;
 
   > li {
     line-height: 2;
@@ -72,7 +77,7 @@ const select = (item: string) => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
-  transform: translateY(-vw(20));
+  transform: translateY(vw(20));
 }
 
 .v-enter-active,

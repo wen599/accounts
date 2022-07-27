@@ -44,3 +44,18 @@ export const getWeek = (date: string) => {
   }
   return week
 }
+/* 获取下个月的第一天 */
+export const nextMonthFirstDay = (date: string) => {
+  const time = new Date(date)
+  let year = time.getFullYear()
+  let month: string | number = time.getMonth() + 2
+  if (month > 12) {
+    month = month - 12
+    year = year + 1
+  }
+  if (month < 10) {
+    month = '0' + month
+  }
+  const day = '01 00:00:00'
+  return year + '-' + month + '-' + day
+}

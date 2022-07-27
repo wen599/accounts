@@ -11,8 +11,8 @@
 
 <script setup lang='ts'>
 import TopBar from '@/components/TopBar.vue'
-  
-const emit=defineEmits(['save'])
+
+const emit = defineEmits(['save'])
 
 </script>
 

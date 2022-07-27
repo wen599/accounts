@@ -6,7 +6,7 @@
         <span class="week">{{ props.total }}</span>
       </div>
       <div class="right">
-        <span class="text">{{ props.list[0].typeFlog ? '支出:' : '收入:' }}</span>
+        <span class="text">{{ allMoney <= 0 ? '支出:' : '收入:' }}</span>
         <span class="all-money">{{ allMoney }}</span>
       </div>
     </div>
@@ -47,18 +47,23 @@ type Props = {
 const props = defineProps<Props>()
 
 const allMoney = computed(() => {
-  return props.list.reduce((previousValue, currentValue) => {
-    previousValue += currentValue.money
-    return previousValue
-  }, 0)
+  let result = 0
+  props.list.forEach((item) => {
+    if (item.typeFlog) {
+      result -= item.money
+    } else {
+      result += item.money
+    }
+  })
+  return result
 })
 
 const router = useRouter()
 const gotoEdit = (info: Info) => {
   const { money, time, typeString, id, remark } = info
   router.push({
-    name: 'edit',
-    params: {
+    path: '/edit',
+    query: {
       money,
       time,
       typeString,

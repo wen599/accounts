@@ -55,17 +55,17 @@ typeSet.forEach(function (item) {
     icon: getIcon(item as string)
   })
 })
-
-outlayList.sort((a: any, b: any) => {
+const fn = function (a: any, b: any) {
   return a.money > b.money ? -1 : 1
-})
+}
+outlayList.sort(fn)
 
 // 跳转
 const router = useRouter()
 const gotoDetail = (text: string) => {
   router.push({
-    name: 'detail',
-    params: {
+    path: '/detail',
+    query: {
       text
     }
   })
@@ -77,7 +77,9 @@ const gotoDetail = (text: string) => {
 <style scoped lang='scss'>
 
 .home-detail {
-  // min-height: calc(100vh - #{vw(94)});
+  height: calc(100vh - #{vw(90)});
+  padding-bottom: vw(40);
+  overflow: auto;
 }
 
 .detail-default {
