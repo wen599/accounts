@@ -32,7 +32,7 @@
       </AssortType>
 
     </div>
-    <div class="echarts" id="main"></div>
+    <div class="echarts" id="main" v-if="echartsShow"></div>
     <FiltrateList :list="filterList" :type="type" class="filterList"></FiltrateList>
 
   </div>
@@ -53,7 +53,7 @@ import {nextMonthFirstDay} from '@/Util/Util'
 import {useExpendStore} from '@/Store/store'
 import {storeToRefs} from 'pinia'
 import {formatDate} from '@/util/Util'
-import {Ref} from 'vue'
+import {onUnmounted, Ref} from 'vue'
 import FiltrateList from '../components/Statistics/FiltrateList.vue'
 // echarts
 import * as echarts from 'echarts/core'
@@ -66,6 +66,11 @@ import {
 import {PieChart, PieSeriesOption} from 'echarts/charts'
 import {LabelLayout} from 'echarts/features'
 import {CanvasRenderer} from 'echarts/renderers'
+
+const echartsShow = ref(true)
+onUnmounted(() => {
+  echartsShow.value = false
+})
 
 // 初始化
 const {expenseRecords} = storeToRefs(useExpendStore())
@@ -266,88 +271,92 @@ let chartDom: any
 let myChart: any
 let option: EChartsOption
 onMounted(() => {
-  chartDom = document.querySelector('#main') as HTMLElement
-  myChart = echarts.init(chartDom)
+  setTimeout(() => {
+    chartDom = (document.querySelector('#main') as HTMLElement)
+    myChart = echarts.init(chartDom)
 
-  option = {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      top: '5%',
-      left: 'center'
-    },
-    series: [
-      {
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
-          borderWidth: 2
-        },
-        label: {
-          show: false,
-          position: 'center'
-        },
-        emphasis: {
+    option = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
           label: {
-            show: true,
-            fontSize: '10',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: echartsDate.value
-      }
-    ]
-  }
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '10',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: echartsDate.value
+        }
+      ]
+    }
 
-  option && myChart.setOption(option, true)
+    option && myChart.setOption(option)
+  }, 200)
 })
 
 onUpdated(() => {
-  option = {
-    tooltip: {
-      trigger: 'item'
-    },
-    legend: {
-      top: '5%',
-      left: 'top'
-    },
-    series: [
-      {
-        type: 'pie',
-        radius: ['40%', '70%'],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
-          borderWidth: 2
-        },
-        label: {
-          show: false,
-          position: 'bottom'
-        },
-        emphasis: {
+  setTimeout(() => {
+    option = {
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'top'
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
           label: {
-            show: true,
-            fontSize: '10',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: echartsDate.value
-      }
-    ]
-  }
+            show: false,
+            position: 'bottom'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '10',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: echartsDate.value
+        }
+      ]
+    }
 
-  option && myChart.setOption(option, true)
+    option && myChart.setOption(option)
+  }, 200)
 })
 
 </script>

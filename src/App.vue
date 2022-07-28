@@ -31,6 +31,7 @@
   }
 }
 
+
 @media (min-width: 500px) {
   .prompt {
     display: block;

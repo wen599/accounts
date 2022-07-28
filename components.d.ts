@@ -7,9 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    A: typeof import('./src/components/Create/A.vue')['default']
     AssortType: typeof import('./src/components/AssortType.vue')['default']
-    B: typeof import('./src/components/Create/B.vue')['default']
     CreateInput: typeof import('./src/components/Create/CreateInput.vue')['default']
     CreateInputItem: typeof import('./src/components/Create/CreateInputItem.vue')['default']
     CreateTitle: typeof import('./src/components/Create/CreateTitle.vue')['default']
@@ -27,13 +25,10 @@ declare module '@vue/runtime-core' {
     HomeTypeContainer: typeof import('./src/components/Home/HomeTypeContainer.vue')['default']
     LeftRightMove: typeof import('./src/components/LeftRightMove.vue')['default']
     ListItem: typeof import('./src/components/Statistics/list-item.vue')['default']
-    Prompt: typeof import('./src/components/Prompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectTime: typeof import('./src/components/Statistics/SelectTime.vue')['default']
-    Test: typeof import('./src/components/Create/Test.vue')['default']
     TopBar: typeof import('./src/components/TopBar.vue')['default']
-    VanCell: typeof import('vant/es')['Cell']
     VanDatetimePicker: typeof import('vant/es')['DatetimePicker']
     VanPicker: typeof import('vant/es')['Picker']
     VanPopup: typeof import('vant/es')['Popup']
