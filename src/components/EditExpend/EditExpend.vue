@@ -29,7 +29,7 @@ const editInput = ref()
 const save = () => {
   if (!editInput.value.money) return Toast('请输入正确金额')
   editInput.value.info.money = editInput.value.money
-
+  editInput.value.info.typeString = editInput.value.xxx
 
   expend.update(editInput.value.info)
   router.back()

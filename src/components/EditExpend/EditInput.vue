@@ -65,6 +65,7 @@ import CreateInputItem from '@/components/Create/CreateInputItem.vue'
 import {useExpendStore, useIncomeStore, useOutlayStore} from '@/Store/store'
 import {formatDate} from '@/util/Util'
 import {PickerInstance} from 'vant'
+import {Ref} from "vue";
 
 
 type Props = {
@@ -78,7 +79,11 @@ const outlay = useOutlayStore()
 
 // 根据id获取记账信息
 const info = toRaw(expend.getInfo(props.id))
-const money: number = ref(info.money)
+const money: Ref<number> = ref(info.money)
+
+watchEffect(() => {
+  money.value = Number(money.value?.toFixed(3).substring(0, money.value?.toFixed(3).length - 1))
+})
 
 const xxx = ref(info.typeString)
 
@@ -130,7 +135,8 @@ watch(currentDate, (newVal, oldVal) => {
 // 导出修改后的数据
 defineExpose({
   info,
-  money
+  money,
+  xxx
 })
 </script>
 

@@ -21,10 +21,10 @@
 <script setup lang='ts'>
 import CreateTitle from '@/components/Create/CreateTitle.vue'
 import CreateType from '@/components/Create/CreateType.vue'
-// import CreateInput from '@/components/Create/CreateInput.vue'
-import { Toast } from 'vant'
-import { useExpendStore, useOutlayStore, useIncomeStore } from '@/Store/store'
-import { useRouter } from 'vue-router'
+import CreateInput from '@/components/Create/CreateInput.vue'
+import {Toast} from 'vant'
+import {useExpendStore, useOutlayStore, useIncomeStore} from '@/Store/store'
+import {useRouter} from 'vue-router'
 import LeftRightMove from '@/components/LeftRightMove.vue'
 
 const router = useRouter()
@@ -40,7 +40,7 @@ const refIncomeInfo = ref()
 const expendStore = useExpendStore()
 
 const save = () => {
-  const { money, typeString, time, remark } = typeFlog.value ? refInfo.value : refIncomeInfo.value
+  const {money, typeString, time, remark} = typeFlog.value ? refInfo.value : refIncomeInfo.value
 
   if (!money) {
     return Toast({

@@ -134,14 +134,19 @@ export const useExpendStore = defineStore(Names.expend, {
             this.expenseRecords.forEach((item: info) => {
                 if (item.time.indexOf(currentMonth) !== -1) {
                     if (item.typeFlog) {
-                        outlay += item.money
+                        outlay += item.money * 100
                         outlayArr.push(item)
                     } else {
-                        income += item.money
+                        income += item.money * 100
                         incomeArr.push(item)
                     }
                 }
+
             })
+            //   解决精度丢失的问题
+
+            outlay = outlay / 100
+            income = income / 100
             return {
                 outlay,
                 income,

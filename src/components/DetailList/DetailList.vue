@@ -27,7 +27,7 @@
 <script setup lang='ts'>
 
 import DetailListItem from '@/components/DetailList/DetailListItem.vue'
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 
 type Info = {
   money: number,
@@ -50,17 +50,17 @@ const allMoney = computed(() => {
   let result = 0
   props.list.forEach((item) => {
     if (item.typeFlog) {
-      result -= item.money
+      result -= item.money * 100
     } else {
-      result += item.money
+      result += item.money * 100
     }
   })
-  return result
+  return result / 100
 })
 
 const router = useRouter()
 const gotoEdit = (info: Info) => {
-  const { money, time, typeString, id, remark } = info
+  const {money, time, typeString, id, remark} = info
   router.push({
     path: '/edit',
     query: {

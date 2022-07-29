@@ -23,9 +23,11 @@ const props = defineProps<Props>()
 
 // 总共的金额
 const all = computed(() => {
-  return props.list.reduce((sum, item) => {
-    return sum + Number(item.allMoney)
-  }, 0)
+  let result = 0
+  props.list.forEach((item: any) => {
+    result += Number(item.allMoney) * 100
+  })
+  return result / 100
 })
 
 </script>

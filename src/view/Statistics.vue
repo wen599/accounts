@@ -33,7 +33,7 @@
 
     </div>
     <div class="echarts" id="main" v-if="echartsShow"></div>
-    <FiltrateList :list="filterList" :type="type" class="filterList"></FiltrateList>
+    <FiltrateList :list="filterList" :type="type as string" class="filterList"></FiltrateList>
 
   </div>
 

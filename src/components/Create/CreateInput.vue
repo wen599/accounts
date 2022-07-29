@@ -69,12 +69,17 @@
 
 <script setup lang='ts'>
 import CreateInputItem from '@/components/Create/CreateInputItem.vue'
-import { Directive, Ref } from 'vue'
-import type { PickerInstance } from 'vant'
-import { formatDate } from '@/util/Util'
+import {Directive, Ref} from 'vue'
+import type {PickerInstance} from 'vant'
+import {formatDate} from '@/util/Util'
 
 // 金额
 const money: Ref<number | undefined> = ref()
+//限制money只能保留两位
+watchEffect(() => {
+  money.value = Number(money.value?.toFixed(3).substring(0, money.value?.toFixed(3).length - 1))
+})
+
 
 // 自动聚焦指令
 const vFocus: Directive = {
@@ -113,8 +118,8 @@ props.typeDate.forEach((item: any) => {
 })
 
 const columns = [
-  { values: Object.keys(cities) },
-  { values: cities[props.typeDate[0].name] }
+  {values: Object.keys(cities)},
+  {values: cities[props.typeDate[0].name]}
 ]
 const onChange = (values: string[]) => {
   (picker.value as any).setColumnValues(1, cities[values[0]])
